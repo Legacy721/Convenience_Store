@@ -74,7 +74,6 @@ public class AdminController {
 
     }
 
-    // Product Section
 
     @GetMapping("/admin/products")
     public String products(Model model){

@@ -17,11 +17,12 @@ public class ProductService {
     public List<Product> getAllProduct(){
         return productRepository.findAll();
     }
+
     public void addProduct(Product product){
         productRepository.save(product);
     }
-    public void removeProductById(long id){
 
+    public void removeProductById(long id){
         productRepository.deleteById(id);
     }
 
@@ -30,7 +31,6 @@ public class ProductService {
     }
 
     public List<Product> getAllProductsByCategoryId(int id){
-
         return productRepository.findAllByCategory_Id(id);
     }
 }

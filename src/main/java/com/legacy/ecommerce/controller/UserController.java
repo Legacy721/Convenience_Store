@@ -7,13 +7,9 @@ import com.legacy.ecommerce.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.List;
-import java.util.Objects;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
@@ -21,12 +17,11 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
-    @GetMapping("/register")
-    public String getRegisterPage(Model model){
-        model.addAttribute("register", new UserDTO());
-        return "register";
-    }
+@GetMapping("/register")
+public String addUserGet(Model model){
+    model.addAttribute("userDTO", new UserDTO());
+    return "register";
+}
 
     @GetMapping("/login")
     public String getLoginPage(Model model){
@@ -35,83 +30,46 @@ public class UserController {
     }
 
 
+
+
     @PostMapping("/register")
-    public String register(@ModelAttribute User user, Model model){
+    public String addUserPost(@ModelAttribute ("userDTO") UserDTO userDTO){
 
-        User userToSave = userService.create(user);
-        System.out.println("Printing new signed");
-        model.addAttribute("user", user);
-
-       // User oauthUser = userService.authenticate(user.getEmail(), user.getPassword());
-
-        if(Objects.nonNull(userToSave)){
-            return "redirect:/login";
-        }else {
-            return "redirect:/register";
-        }
+        User user = new User();
+        user.setId(userDTO.getId());
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
 
 
+        userService.addUser(user);
+
+        return "redirect:/login";
     }
+        @PostMapping("/login")
+        public String login(@ModelAttribute User user, Model model ) {
+            User oauthUser = userService.authenticate(user.getEmail(), user.getPassword());
+            if (oauthUser.getEmail().equals("admin@gmail.com") && oauthUser.getPassword().equals("admin")) {
+                return "redirect:/adminHome";
+            }
 
-//    @Autowired
-//    UserService userService;
-//
-//
-//
-//    @GetMapping("/login")
-//    public ModelAndView login() {
-//        ModelAndView mav = new ModelAndView("login");
-//        mav.addObject("user", new User());
-//        return mav;
-//    }
-//
-//    @GetMapping("/home")
-//    public String  home(Model model) {
-//        List<User> listOfUsers = userService.getAllUsers();
-//        model.addAttribute("listOfUsers", listOfUsers);
-//        return "home";
-//    }
-//
-//    @GetMapping("/register")
-//    public String  signup() {
-//        return "register";
-//    }
-//
-//    @PostMapping("/login")
-//    public String login(@ModelAttribute("user") User user ) {
-//
-//        User oauthUser = userService.login(user.getEmail(), user.getPassword());
-//
-//        System.out.print(oauthUser);
-//        if(Objects.nonNull(oauthUser))
-//        {
-//            return "redirect:/shop";
-//        } else {
-//            return "redirect:/login";
-//        }
-//
-//    }
-//
-//    @PostMapping("/signup")
-//    public String createAccount(@ModelAttribute User user, Model model) {
-//
-//        model.addAttribute("user", user);
-//        User toSaveUser = userService.create(user);
-//
-//        User oauthUser = userService.login(user.getEmail(), user.getPassword());
-//
-//        if(Objects.nonNull(oauthUser)) {
-//            return "redirect:/login";
-//        } else {
-//            return "redirect:/signup";
-//        }
-//
-//    }
+            if(oauthUser != null) {
+                model.addAttribute("user", oauthUser);
 
-//    @RequestMapping(value = {"/logout"}, method = RequestMethod.POST)
-//    public String logoutDo(HttpServletRequest request, HttpServletResponse response) {
-//        return "redirect:/login";
-//    }
+                    return "redirect:/shop";
+            } else {
+                return "redirect:/login";
+            }
+        }
+        @GetMapping("/product")
+        public String product(){
+            return "product";
+        }
+        @GetMapping("/adminHome")
+        public String adminHome(){
+            return "adminHome";
+        }
 
 
 }
