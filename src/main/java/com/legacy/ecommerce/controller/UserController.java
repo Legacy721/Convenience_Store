@@ -72,4 +72,11 @@ public String addUserGet(Model model){
         }
 
 
+        @GetMapping("/logout")
+        public String userLogout(){
+
+            return "index";
+        }
+
+
 }

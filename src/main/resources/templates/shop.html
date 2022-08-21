@@ -33,17 +33,15 @@
                 <li class="nav-item active">
                     <a class="nav-link" th:href="@{/shop}" href="#">shop</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" href="#">login</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" href="#">logout</a>
-                </li>
+
                 <li class="nav-item active">
                     <a class="nav-link" th:href="@{/cart}" href="#">cart</a>
                 </li>
                 <li class="nav-item active">
                     <span class="nav-link" th:text="${cartCount}">0</span>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" href="#">logout</a>
                 </li>
             </ul>
 
@@ -62,6 +60,8 @@
 
             </ul>
         </div>
+
+
         <div class="col-sm-9">
             <div class="card" style="margin-top: 20px" th:each="product : ${products}">
                 <div class="row no-gutters">

@@ -17,20 +17,6 @@ public class UserService {
     private UserRepository userRepository;
 
 
-//    public User create(User userDto) {
-//
-//        if(userDto.getEmail() != null && userDto.getPassword() !=null){
-//            User user = User.builder()
-//                    .firstName(userDto.getFirstName())
-//                    .lastName(userDto.getLastName())
-//                    .email(userDto.getEmail())
-//                    .password(userDto.getPassword())
-//                    .build();
-//            return userRepository.save(user);
-//        }
-//        return null;
-//    }
-
     public User authenticate(String email, String password){
         return userRepository.findByEmailAndPassword(email, password).orElse(null);
 

@@ -35,17 +35,17 @@
                 <li class="nav-item active">
                     <a class="nav-link" th:href="@{/shop}" href="#">shop</a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" href="#">login</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" href="#">logout</a>
-                </li>
+<!--                <li class="nav-item active">-->
+<!--                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" href="#">login</a>-->
+<!--                </li>-->
                 <li class="nav-item active">
                     <a class="nav-link" th:href="@{/cart}" href="#">cart</a>
                 </li>
                 <li class="nav-item active">
                     <span class="nav-link" th:text="${cartCount}">0</span>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" href="#">logout</a>
                 </li>
             </ul>
 
@@ -96,7 +96,7 @@
                                                         class="fas fa-trash-alt mr-1"></i> Remove item </a>
 
                                             </div>
-                                            <p class="mb-0"><span><strong>₹<span th:text="${item.price}"></span></strong></span></p>
+                                            <p class="mb-0"><span><strong>$<span th:text="${item.price}"></span></strong></span></p>
                                         </div>
                                     </div>
                                 </div>
